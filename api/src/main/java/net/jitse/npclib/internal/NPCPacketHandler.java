@@ -5,6 +5,7 @@
 package net.jitse.npclib.internal;
 
 import net.jitse.npclib.api.state.NPCSlot;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -21,6 +22,8 @@ interface NPCPacketHandler {
     void sendMetadataPacket(Player player);
 
     void sendEquipmentPacket(Player player, NPCSlot slot, boolean auto);
+
+    void sendMovement(Player player, Location from, Location to);
 
     default void sendEquipmentPackets(Player player) {
         for (NPCSlot slot : NPCSlot.values())

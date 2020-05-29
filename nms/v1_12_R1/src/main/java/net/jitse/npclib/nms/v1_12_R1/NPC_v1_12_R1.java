@@ -15,6 +15,7 @@ import net.jitse.npclib.internal.NPCBase;
 import net.jitse.npclib.nms.v1_12_R1.packets.*;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -107,6 +108,18 @@ public class NPC_v1_12_R1 extends NPCBase {
 
         PacketPlayOutEntityEquipment packet = new PacketPlayOutEntityEquipment(entityId, nmsSlot, CraftItemStack.asNMSCopy(item));
         playerConnection.sendPacket(packet);
+    }
+
+    @Override
+    public void sendMovement(Player player, Location from, Location to) {
+        PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
+
+        short x = (short) -((to.getX() * 32 - from.getX() * 32) * 128);
+        short y = (short) -((to.getY() * 32 - from.getY() * 32) * 128);
+        short z = (short) -((to.getZ() * 32 - from.getZ() * 32) * 128);
+        PacketPlayOutEntity.PacketPlayOutRelEntityMove packet = new PacketPlayOutEntity.PacketPlayOutRelEntityMove(entityId, x, y, z, true);
+        playerConnection.sendPacket(packet);
+        playerConnection.sendPacket(new PacketPlayOutEntity.PacketPlayOutEntityLook(entityId, (byte) (location.getYaw() * 256 / 360), (byte) (0f * 256 / 360), true));
     }
 
     @Override

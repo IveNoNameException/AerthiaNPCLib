@@ -80,6 +80,10 @@ public abstract class NPCBase implements NPC, NPCPacketHandler {
         return this;
     }
 
+    public void followPlayer(Player player, Location location) {
+        sendMovement(player, location, player.getLocation());
+    }
+
     @Override
     public void destroy() {
         NPCManager.remove(this);
