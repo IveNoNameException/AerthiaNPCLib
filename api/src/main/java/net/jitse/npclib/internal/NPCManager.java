@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public final class NPCManager {
 
-    private static Set<NPCBase> npcs = new HashSet<>();
+    private static final Set<NPCBase> npcs = new HashSet<>();
 
     public static Set<NPCBase> getAllNPCs() {
         return npcs;
