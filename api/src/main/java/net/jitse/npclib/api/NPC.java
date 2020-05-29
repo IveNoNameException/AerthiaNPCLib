@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NPC {
-
     /**
      * Set the NPC's location.
      * Use this method before using {@link NPC#create}.
