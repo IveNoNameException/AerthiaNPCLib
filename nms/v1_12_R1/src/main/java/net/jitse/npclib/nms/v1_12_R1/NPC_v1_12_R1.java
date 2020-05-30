@@ -21,6 +21,7 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -114,11 +115,26 @@ public class NPC_v1_12_R1 extends NPCBase {
     public void sendMovement(Player player, Location from, Location to) {
         PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
 
-        short x = (short) -((to.getX() * 32 - from.getX() * 32) * 128);
-        short y = (short) -((to.getY() * 32 - from.getY() * 32) * 128);
-        short z = (short) -((to.getZ() * 32 - from.getZ() * 32) * 128);
+        short x = (short) -((from.getX() * 32 - to.getX() * 32) * 128);
+        short y = (short) -((from.getY() * 32 - to.getY() * 32) * 128);
+        short z = (short) -((from.getZ() * 32 - to.getZ() * 32) * 128);
         PacketPlayOutEntity.PacketPlayOutRelEntityMove packet = new PacketPlayOutEntity.PacketPlayOutRelEntityMove(entityId, x, y, z, true);
         playerConnection.sendPacket(packet);
+
+        PacketPlayOutEntityHeadRotation headRotation = new PacketPlayOutEntityHeadRotation();
+        try {
+            Field id = headRotation.getClass().getDeclaredField("a");
+            id.setAccessible(true);
+            id.set(headRotation, entityId);
+
+            Field yaw = headRotation.getClass().getDeclaredField("b");
+            yaw.setAccessible(true);
+            yaw.set(headRotation, (byte) (to.getYaw() * 256F / 360F));
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        playerConnection.sendPacket(headRotation);
         playerConnection.sendPacket(new PacketPlayOutEntity.PacketPlayOutEntityLook(entityId, (byte) (location.getYaw() * 256 / 360), (byte) (0f * 256 / 360), true));
     }
 

@@ -80,8 +80,8 @@ public abstract class NPCBase implements NPC, NPCPacketHandler {
         return this;
     }
 
-    public void followPlayer(Player player, Location location) {
-        sendMovement(player, location, player.getLocation());
+    public void followPlayer(Player player, Location from, Location to) {
+        sendMovement(player, from, to);
     }
 
     @Override
