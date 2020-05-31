@@ -6,8 +6,8 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>net.jitse</groupId>
-        <artifactId>npclib</artifactId>
+        <groupId>it.aerthia</groupId>
+        <artifactId>AerthiaNPCLib</artifactId>
         <version>2.7.2-SNAPSHOT</version>
     </parent>
 
@@ -21,15 +21,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.jitse</groupId>
+            <groupId>it.aerthia</groupId>
             <artifactId>npclib-api</artifactId>
-            <version>${project.version}</version>
+            <version>2.7.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.jitse</groupId>
+            <groupId>it.aerthia</groupId>
             <artifactId>npclib-nms-v1_12_R1</artifactId>
-            <version>${project.version}</version>
+            <version>2.7.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
