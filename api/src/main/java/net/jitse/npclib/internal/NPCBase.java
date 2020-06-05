@@ -81,7 +81,11 @@ public abstract class NPCBase implements NPC, NPCPacketHandler {
     }
 
     public void followPlayer(Player player, Location from, Location to) {
-        sendMovement(player, from, to);
+        sendMovementPacket(player, from, to);
+    }
+
+    public void lookPlayer(Player player, Location loc) {
+        sendLookPacket(player, loc);
     }
 
     @Override

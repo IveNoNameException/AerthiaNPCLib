@@ -23,7 +23,9 @@ interface NPCPacketHandler {
 
     void sendEquipmentPacket(Player player, NPCSlot slot, boolean auto);
 
-    void sendMovement(Player player, Location from, Location to);
+    void sendMovementPacket(Player player, Location from, Location to);
+
+    void sendLookPacket(Player player, Location loc);
 
     default void sendEquipmentPackets(Player player) {
         for (NPCSlot slot : NPCSlot.values())

@@ -111,7 +111,7 @@ public class NPC_v1_12_R1 extends NPCBase {
     }
 
     @Override
-    public void sendMovement(Player player, Location from, Location to) {
+    public void sendMovementPacket(Player player, Location from, Location to) {
         PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
 
         short x = (short) -((from.getX() * 32 - to.getX() * 32) * 128);
@@ -119,6 +119,13 @@ public class NPC_v1_12_R1 extends NPCBase {
         short z = (short) -((from.getZ() * 32 - to.getZ() * 32) * 128);
         PacketPlayOutEntity.PacketPlayOutRelEntityMove packet = new PacketPlayOutEntity.PacketPlayOutRelEntityMove(entityId, x, y, z, true);
         playerConnection.sendPacket(packet);
+
+        sendLookPacket(player, to);
+    }
+
+    @Override
+    public void sendLookPacket(Player player, Location loc) {
+        PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
 
         PacketPlayOutEntityHeadRotation headRotation = new PacketPlayOutEntityHeadRotation();
         try {
@@ -128,7 +135,7 @@ public class NPC_v1_12_R1 extends NPCBase {
 
             Field yaw = headRotation.getClass().getDeclaredField("b");
             yaw.setAccessible(true);
-            yaw.set(headRotation, (byte) (to.getYaw() * 256F / 360F));
+            yaw.set(headRotation, (byte) (loc.getYaw() * 256F / 360F));
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
